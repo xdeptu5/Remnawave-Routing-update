@@ -106,7 +106,7 @@ def main():
     settings = get_remna_settings()
     data = settings.get("response", settings)
     settings_uuid = data["uuid"]
-    current_routing = data.get("happRouting", "") or ""
+    current_routing = (data.get("happRouting", "") or "").strip()
     log.info("Settings UUID: %s", settings_uuid)
     log.info("Current happRouting loaded (%d chars)", len(current_routing))
 
@@ -116,7 +116,7 @@ def main():
         try:
             data = get_external_squad(squad["uuid"])
             squad_data = data.get("response", data)
-            squad["current_routing"] = squad_data.get("subscriptionSettings", {}).get("happRouting", "") or ""
+            squad["current_routing"] = (squad_data.get("subscriptionSettings", {}).get("happRouting", "") or "").strip()
             log.info("Squad %s current happRouting loaded (%d chars)", squad["uuid"], len(squad["current_routing"]))
         except Exception:
             log.exception("Failed to fetch initial routing for squad %s, will update on first cycle", squad["uuid"])
